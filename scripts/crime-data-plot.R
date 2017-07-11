@@ -24,8 +24,14 @@ df$monthnum=as.integer(substr(df$Month, 6, 7))
 monthstrings=c("January", "February", "March", "April", "May", "June", "July", "August", "September",
                "October", "November", "December")
 df$monthname=factor(df$monthnum, levels=1:12,labels=monthstrings)
+
 # Quick plot to check
-ggplot(df)+geom_bar(aes(x=monthnum, fill=Crime.type), position="stack")+theme_bw()+scale_x_continuous(breaks=1:12)
+ggplot(df)+
+  geom_bar(aes(x=monthname, fill=Crime.type), position="stack")+
+  theme_bw()+ylab("Number of crimes")+
+  xlab("")
+ggsave("/Users/annejones/Documents/blog/blog_r_scripts/basic_R_tutorials/output/crime_animation/bar.png",
+       height=4, width=10, units="in")
 
 # Create an animation with one frame per month
 nframes=12
@@ -47,7 +53,7 @@ create.plots <-function()
     # Print the base map and title, implement various appearance tweaks
     titlestr=paste(monthstrings[iframe],'\n',2016,sep='')
     p=ggmap(mymap)+ggtitle(titlestr)+theme_bw()+
-      theme(plot.title = element_text(hjust = 0.5),text = element_text(size=20))+
+      theme(plot.title = element_text(hjust = 0.5),text = element_text(size=16))+
       theme(axis.title.x=element_blank(),axis.text.x=element_blank(),axis.ticks.x=element_blank())+
       theme(axis.title.y=element_blank(),axis.text.y=element_blank(),axis.ticks.y=element_blank())
     
@@ -58,7 +64,7 @@ create.plots <-function()
     p=p+scale_color_discrete("", drop=F)
     
     # Fix transparency, size of points and spacing on the legend
-    p=p+guides(colour = guide_legend(override.aes = list(alpha = 1, size=4), keyheight = 2))
+    p=p+guides(colour = guide_legend(override.aes = list(alpha = 1, size=4), keyheight = 1.5))
     print(p)  
   }
 }
@@ -77,3 +83,9 @@ saveHTML(create.plots(),
          title="Crime Animation",
          description=c("none")
 )
+
+
+# generate code for embedding animmations
+library(Rmdanimation)
+cat(animatedHTML(create.plots(), "anim-embed",ani.height=600,ani.width=600))
+
