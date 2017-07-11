@@ -15,13 +15,11 @@ for(year in c(2016))
     {
       monthstr=paste(year,sprintf("%02i",month),sep='-')
       print(monthstr)
-      for(location in c("merseyside"))
-      {
-        df1<-fread(paste("/Users/annejones/Documents/blog/datasets/crime/crimedata/",monthstr,"/",
+      location="merseyside"
+      df1<-fread(paste("/Users/annejones/Documents/blog/datasets/crime/crimedata/",monthstr,"/",
                          monthstr,"-",location,"-street.csv",sep=''), data.table=F)
-        df=rbind(df,df1)
-      }
     }
+    df=rbind(df,df1)
   }
 }
 rm(df1)
