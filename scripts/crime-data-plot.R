@@ -6,13 +6,11 @@ library(animation)
 library(ggplot2) 
 library(ggmap)
 
-# change this to the location in which your data files are stored
-# leave the end slash in 
-datadir='/Users/annejones/Work/teaching/R/data/earthquakes/'
-
-# read the data: Earthquakes in central Italy in August and September 2016 
-# data were obtained from https://www.kaggle.com/blackecho/italy-earthquakes
-df=read.csv(paste(datadir,'earthquakes.csv',sep=''))
+# Read the data: Crimes in the Liverpool area during 2016 
+# (Contains public sector information licensed under the Open Government Licence v3.0)
+# Data for Merseyside Police, January to December 2016 obtained from https://data.police.uk/
+# Grab my edit for Liverpool area and with extraneous columns removed:
+df=read.csv("https://github.com/annezj/basic_R_tutorials/raw/master/data/Liverpool-01-2016-12-2016.csv")
 
 # get googlemaps backgroud for the dataset location
 latmin=min(df$Latitude)

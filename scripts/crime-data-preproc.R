@@ -28,7 +28,7 @@ rm(df1)
 
 # clean up data and save
 df.save=df[,c(2,5,6,10)]
-write.csv(df.save, file="/Users/annejones/Documents/blog/datasets/crime/crimedata/Merseyside-01-2016-12-2016.csv")
+write.csv(df.save, file="/Users/annejones/Documents/blog/datasets/crime/crimedata/Merseyside-01-2016-12-2016.csv", row.names = F)
 df.crime=df.save
 
 # zoom and trim, then save again
@@ -37,7 +37,7 @@ ylim=c(53.32,53.50)
 
 df.trim=df.crime[which((df.crime$Latitude>=ylim[1])&(df.crime$Latitude<=ylim[2])&
                          (df.crime$Longitude>=xlim[1])&(df.crime$Longitude<=xlim[2])),]
-write.csv(df.trim, file="/Users/annejones/Documents/blog/datasets/crime/crimedata/Liverpool-01-2016-12-2016.csv")
+write.csv(df.trim, file="/Users/annejones/Documents/blog/blog_r_scripts/basic_R_tutorials/data/Liverpool-01-2016-12-2016.csv", row.names = F)
 
 df=df.trim
 rm(df.trim)
