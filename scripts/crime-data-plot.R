@@ -44,14 +44,21 @@ create.plots <-function()
     # Pick up crimes occurring this month
     dfi=df[which(df$monthnum==iframe),]
     
-    # Print the base map and title
+    # Print the base map and title, implement various appearance tweaks
     titlestr=paste(monthstrings[iframe],'\n',2016,sep='')
-    p=ggmap(mymap)+ggtitle(titlestr)+theme(plot.title = element_text(hjust = 0.5))
+    p=ggmap(mymap)+ggtitle(titlestr)+theme_bw()+
+      theme(plot.title = element_text(hjust = 0.5),text = element_text(size=20))+
+      theme(axis.title.x=element_blank(),axis.text.x=element_blank(),axis.ticks.x=element_blank())+
+      theme(axis.title.y=element_blank(),axis.text.y=element_blank(),axis.ticks.y=element_blank())
     
     # Plot all crimes for this frame
-    # fix the color scale across all frames so no categories are dropped
-    p=p+geom_point(data=dfi,aes(x=Longitude,y=Latitude,color=Crime.type), alpha=0.2)+
-      scale_color_discrete("", drop=F)+xlab("")+ylab("")
+    p=p+geom_point(data=dfi,aes(x=Longitude,y=Latitude,color=Crime.type), alpha=0.4)
+    
+    # Fix the color scale across all frames so no categories are dropped
+    p=p+scale_color_discrete("", drop=F)
+    
+    # Fix transparency, size of points and spacing on the legend
+    p=p+guides(colour = guide_legend(override.aes = list(alpha = 1, size=4), keyheight = 2))
     print(p)  
   }
 }
@@ -66,7 +73,7 @@ saveHTML(create.plots(),
          autoplay=T,
          outdir=getwd(),
          htmlfile=paste("crime_animation.html", sep=""),
-         ani.height=600,ani.width=600,
+         ani.height=800,ani.width=800,
          title="Crime Animation",
          description=c("none")
 )
